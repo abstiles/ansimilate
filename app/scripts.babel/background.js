@@ -8,4 +8,8 @@ chrome.tabs.onUpdated.addListener(tabId => {
   chrome.pageAction.show(tabId);
 });
 
-console.log('\'Allo \'Allo! Event Page for Page Action');
+chrome.pageAction.onClicked.addListener(function(tab) {
+  chrome.tabs.sendMessage(tab.id, {event: "iconClicked"}, function (response) {
+    console.log(response);
+  });
+});
