@@ -4,13 +4,13 @@ import ansi_up from 'ansi_up';
 
 const FILTERED_ROOT_ID = "ansi_up_filtered";
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.event == "iconClicked") {
-      filterAnsi();
-    }
-  });
+chrome.runtime.onMessage.addListener(message => {
+  if (message.event == "iconClicked") {
+    filterAnsi();
+  }
+});
 
+/** Perform the ANSI parsing operation. */
 function filterAnsi() {
   var textElement = document.querySelector("body>pre");
   if (textElement === null) {
@@ -27,6 +27,7 @@ function filterAnsi() {
   toggleVisibility(filteredRoot);
 }
 
+/** Create the element to hold the parsed ANSI text. */
 function createFilteredRoot(text) {
   var filteredRoot = document.createElement("pre");
   filteredRoot.id = FILTERED_ROOT_ID;
@@ -38,6 +39,7 @@ function createFilteredRoot(text) {
   return filteredRoot;
 }
 
+/** Toggle visibility on the tags containing the parsed/unparsed text. */
 function toggleVisibility(element) {
   if (element.style.display === "none") {
     element.style.display = "block";
